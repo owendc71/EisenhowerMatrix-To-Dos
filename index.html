@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eisenhower Matrix - To Do List</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#bed">Skip to matrix</a>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path d="M2 2v20h20" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="5" y="5" width="6" height="6" fill="currentColor" opacity=".85"/><rect x="13" y="5" width="6" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="5" y="13" width="6" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="13" width="6" height="6" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".45"/></svg>
+    </span>
+    <span class="brand-text">
+      <strong>Plotting Bed</strong>
+      <em>Eisenhower matrix</em>
+    </span>
+  </div>
+
+  <div class="topbar-search">
+    <label class="sr-only" for="search">Search tasks</label>
+    <input id="search" type="search" placeholder="Search tasks, tags, notes" autocomplete="off">
+    <kbd class="search-key">/</kbd>
+  </div>
+
+  <div class="topbar-readout" id="readout" aria-live="polite"></div>
+
+  <div class="topbar-actions">
+    <button type="button" class="btn ghost" id="toggle-done" aria-pressed="false">Show done</button>
+    <details class="menu">
+      <summary class="btn ghost" title="Board menu">Board</summary>
+      <div class="menu-panel">
+        <button type="button" class="menu-item" data-action="export">Export JSON</button>
+        <button type="button" class="menu-item" data-action="import">Import JSON</button>
+        <button type="button" class="menu-item" data-action="clear-done">Clear completed</button>
+        <button type="button" class="menu-item" data-action="reset-grids">Reset grid sizes</button>
+        <button type="button" class="menu-item danger" data-action="clear-all">Delete every task</button>
+      </div>
+    </details>
+    <button type="button" class="btn ghost icon" id="theme" title="Switch theme" aria-label="Switch theme">◐</button>
+  </div>
+</header>
+
+<main class="shell">
+  <!-- Staging tray -->
+  <section class="tray" aria-labelledby="tray-title">
+    <div class="tray-head">
+      <h2 id="tray-title">Unplotted</h2>
+      <span class="count mono" id="tray-count">0</span>
+    </div>
+
+    <form class="quick-add" id="quick-add" autocomplete="off">
+      <label class="sr-only" for="quick-input">New task</label>
+      <input id="quick-input" placeholder="Add a task, then place it" maxlength="200">
+      <button class="btn solid" type="submit">Add</button>
+    </form>
+    <p class="quick-hint mono">#tag to label · !1–!4 to plot straight into a quadrant · &gt;fri or &gt;2026-09-04 to set a due date</p>
+
+    <ul class="tray-list" id="tray-list" data-drop="tray"></ul>
+  </section>
+
+  <!-- Matrix -->
+  <section class="bed" id="bed" aria-labelledby="bed-title">
+    <h2 id="bed-title" class="sr-only">Urgency and importance matrix</h2>
+
+    <div class="axis axis-x" aria-hidden="true">
+      <span class="axis-rule"></span>
+      <span class="axis-name">Urgency</span>
+      <span class="axis-rule"></span>
+    </div>
+
+    <div class="bed-body">
+      <div class="axis axis-y" aria-hidden="true">
+        <span class="axis-rule"></span>
+        <span class="axis-name">Importance</span>
+        <span class="axis-rule"></span>
+      </div>
+      <div class="quads" id="quads"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="statusline mono">
+  <span><kbd>/</kbd> search</span>
+  <span><kbd>N</kbd> new task</span>
+  <span><kbd>Esc</kbd> close</span>
+  <span><kbd>⌘Z</kbd> undo</span>
+  <span class="saved" id="saved">Saved locally</span>
+</footer>
+
+<!-- Detail popup -->
+<div class="overlay" id="overlay" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" id="sheet"></div>
+</div>
+
+<div class="toast-rail" id="toasts" aria-live="polite"></div>
+<input type="file" id="file-input" accept="application/json,.json" hidden>
+
+<script src="app.js"></script>
+</body>
+</html>
